@@ -1,5 +1,9 @@
-function getOpCode(mnemoncis){
-    return trans[mnemoncis];
+function getOpCode(mnemonics){
+    return trans[mnemonics];
+}
+
+function getMnemonics(opCode){
+    return trans.indexOf(opCode);
 }
 
 var trans = new Array();
