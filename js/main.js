@@ -1,3 +1,5 @@
+var finalState = true;
+var speed = 500;
 var carryBit = 0;
 var counter = 0;
 var memory = new Array();
@@ -7,6 +9,21 @@ register[0] = "0000000000000000";
 register[1] = "0000000000000000";
 register[2] = "0000000000000000";
 register[3] = "0000000000000000";
+
+function reset() {
+    finalState = true;
+    speed = 50;
+    carryBit = 0;
+    counter = 0;
+    memory = new Array();
+    register = new Array();
+    commandCounter = 100;
+    register[0] = "0000000000000000";
+    register[1] = "0000000000000000";
+    register[2] = "0000000000000000";
+    register[3] = "0000000000000000";
+    updateView();
+}
 
 
 function toBinary(value) {
@@ -18,7 +35,8 @@ function CLR(index) {
     register[index] = "0000000000000000";
     carryBit = 0;
     commandCounter = commandCounter + 2;
-};
+}
+;
 
 function ADD(index) {
     var akku = register[0];
@@ -50,12 +68,12 @@ function ADD(index) {
     commandCounter = commandCounter + 2;
 }
 
-function callFunction(func){
-    
+function callFunction(func) {
+
 }
 
 function test() {
-    
+
 }
 
 function BZD() {
@@ -171,14 +189,13 @@ function loadProgrammAndDataToMemory() {
         var splittedLine = lines[i].split(" ");
         memory[splittedLine[0]] = splittedLine[1];
     }
-    updateView();
 }
 
 function NOT() {
     var akku = register[0];
     for (var i = 0; i < 16; i++) {
-        if (akku[i] === "0") {     
-           akku = akku.replaceAt(i, "1");
+        if (akku[i] === "0") {
+            akku = akku.replaceAt(i, "1");
         } else {
             akku = akku.replaceAt(i, "0");
         }
@@ -187,11 +204,16 @@ function NOT() {
     commandCounter = commandCounter + 2;
 }
 
-function STOP(){
-    
+function STOP() {
+    finalState = true;
 }
 
-function updateView(){
+function init() {
+    loadSlider();
+    updateView();
+}
+
+function updateView() {
     $("#commandCounter").html(commandCounter);
     $("#counter").html(counter);
     $("#akku").html(register[0]);
@@ -201,20 +223,34 @@ function updateView(){
     $("#register3").html(register[3]);
 }
 
-function step(){
-    getFunction(memory[commandCounter]);
+function step() {
+    //getFunction(memory[commandCounter]);
     counter++;
     updateView();
 }
 
-function clearAll(){
-    
+function run() {
+    setTimeout(function() {
+        if (!finalState) {
+            step();
+            run();
+        }
+    }, speed);
 }
 
-function run(){
-    
+function pause() {
+    finalState = true;
 }
 
-function pause(){
-    
+function play() {
+    finalState = false;
+}
+
+function loadSlider() {
+    $("#slider").slider({
+        max: 5000,
+        change: function(event, ui) {
+            speed = ui.value;
+        }
+    });
 }

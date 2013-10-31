@@ -5,10 +5,11 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style/css/bootstrap.css" type="text/css"/>
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" type="text/css"/>
         <link rel="stylesheet" href="style/css/main.css">
 
-        <script src="js/vendor/jquery.min.js"></script>
-        <script src="js/storage.js"></script>
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
         <script src="js/main.js"></script>
         <script src="js/translate.js"></script>
     </head>
@@ -22,10 +23,11 @@
                 <div class="col-lg-4">
                     <div class="row">
                         <div class="col-lg-12 text-center">
-                            <button onclick="run();">Run</button>
+                            <div id="slider"></div><br>
+                            <button onclick="run(); play();">Run</button>
                             <button onclick="pause();">Pause</button>
                             <button onclick="step();">Schritt</button>
-                            <button onclick="clearAll();">Reset</button>
+                            <button onclick="reset();">Reset</button>
                         </div>
                     </div>
                     <div class="row">
@@ -55,7 +57,7 @@
         </div>
         <script src="js/vendor/bootstrap.min.js"></script>
         <script>
-                                //test();
+            init();
         </script>
     </body>
 </html>

@@ -37,4 +37,3 @@ trans["0000000000000000"] = function (){END();};
 function getFunction(binary){
     return trans[binary]();
 }
-
