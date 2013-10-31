@@ -1,6 +1,8 @@
-var commandCounter, carryBit, count;
+var carryBit = 0;
+var counter = 0;
 var memory = new Array();
 var register = new Array();
+var commandCounter = 100;
 register[0] = "0000000000000000";
 register[1] = "0000000000000000";
 register[2] = "0000000000000000";
@@ -12,9 +14,11 @@ function toBinary(value) {
 }
 
 function CLR(index) {
+    alert("ADF");
     register[index] = "0000000000000000";
     carryBit = 0;
-}
+    commandCounter = commandCounter + 2;
+};
 
 function ADD(index) {
     var akku = register[0];
@@ -43,23 +47,46 @@ function ADD(index) {
     }
     register[0] = result.join("");
     carryBit = overflow;
+    commandCounter = commandCounter + 2;
 }
 
+function callFunction(func){
+    
+}
 
 function test() {
-    DEC();
+    
 }
 
-function loadProgramm() {
-    //loadProgrammandDataToMemory();
-    test();
+function BZD() {
+    var befehl = memory[commandCounter];
+    if (register[0] === "0000000000000000") {
+        commandCounter = parseInt(befehl.substring(6, 16), 2);
+    } else {
+        commandCounter = commandCounter + 2;
+    }
 }
 
-function SLA() {
+function BCD() {
+    var befehl = memory[commandCounter];
+    if (carry === 1) {
+        commandCounter = parseInt(befehl.substring(6, 16), 2);
+    } else {
+        commandCounter = commandCounter + 2;
+    }
+}
+
+function BD() {
+    var befehl = memory[commandCounter];
+    commandCounter = parseInt(befehl.substring(6, 16), 2);
+}
+
+function SLL() {
     var akku = register[0];
     carryBit = parseInt(akku[0]);
     akku = akku.substr(1, 15) + "0";
     register[0] = akku;
+    commandCounter = commandCounter + 2;
 }
 
 function SRA() {
@@ -68,6 +95,7 @@ function SRA() {
     carryBit = parseInt(akku[15]);
     akku = msb + akku.substr(0, 15);
     register[0] = akku;
+    commandCounter = commandCounter + 2;
 }
 
 String.prototype.replaceAt = function(index, character) {
@@ -80,7 +108,6 @@ function INC() {
     if (last === -1) {
         carryBit = 1;
         register[0] = "0000000000000000";
-        return;
     } else {
         akku = akku.replaceAt(last, "1");
         var replaceString = "0000000000000000".substr(0, 15 - last);
@@ -88,14 +115,19 @@ function INC() {
         carryBit = 0;
         register[0] = akku;
     }
+    commandCounter = commandCounter + 2;
 }
 
-function LWDD(index, befehl){
-    register[index] = memory[parseInt(befehl.substring(6, 15), 2)];
+function LWDD(index) {
+    var befehl = memory[commandCounter];
+    register[index] = memory[parseInt(befehl.substring(6, 16), 2)];
+    commandCounter = commandCounter + 2;
 }
 
-function SWDD(index, befehl){
-    memory[parseInt(befehl.substring(6, 15), 2)] = register[index];
+function SWDD(index) {
+    var befehl = memory[commandCounter];
+    memory[parseInt(befehl.substring(6, 16), 2)] = register[index];
+    commandCounter = commandCounter + 2;
 }
 
 function DEC() {
@@ -104,7 +136,6 @@ function DEC() {
     if (akku === "0000000000000000") {
         carryBit = 1;
         register[0] = "1111111111111111";
-        return;
     } else {
         var overflow = 0;
         var result = new Array();
@@ -130,6 +161,7 @@ function DEC() {
         }
         register[0] = result.join("");
     }
+    commandCounter = commandCounter + 2;
 }
 
 function loadProgrammAndDataToMemory() {
@@ -139,4 +171,50 @@ function loadProgrammAndDataToMemory() {
         var splittedLine = lines[i].split(" ");
         memory[splittedLine[0]] = splittedLine[1];
     }
+    updateView();
+}
+
+function NOT() {
+    var akku = register[0];
+    for (var i = 0; i < 16; i++) {
+        if (akku[i] === "0") {     
+           akku = akku.replaceAt(i, "1");
+        } else {
+            akku = akku.replaceAt(i, "0");
+        }
+    }
+    register[0] = akku;
+    commandCounter = commandCounter + 2;
+}
+
+function STOP(){
+    
+}
+
+function updateView(){
+    $("#commandCounter").html(commandCounter);
+    $("#counter").html(counter);
+    $("#akku").html(register[0]);
+    $("#carryBit").html(carryBit);
+    $("#register1").html(register[1]);
+    $("#register2").html(register[2]);
+    $("#register3").html(register[3]);
+}
+
+function step(){
+    getFunction(memory[commandCounter]);
+    counter++;
+    updateView();
+}
+
+function clearAll(){
+    
+}
+
+function run(){
+    
+}
+
+function pause(){
+    
 }
