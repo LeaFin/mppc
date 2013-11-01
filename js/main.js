@@ -31,7 +31,6 @@ function toBinary(value) {
 }
 
 function CLR(index) {
-    alert("ADF");
     register[index] = "0000000000000000";
     carryBit = 0;
     commandCounter = commandCounter + 2;
@@ -87,7 +86,7 @@ function BZD() {
 
 function BCD() {
     var befehl = memory[commandCounter];
-    if (carry === 1) {
+    if (carryBit === 1) {
         commandCounter = parseInt(befehl.substring(6, 16), 2);
     } else {
         commandCounter = commandCounter + 2;
@@ -207,6 +206,11 @@ function NOT() {
 
 function STOP() {
     finalState = true;
+    result = parseInt(memory[504]+memory[506], 2);
+    if (result > 2147483647){
+        result = -2*2147483648 + result;
+    }
+    alert('Resultat: ' + result);
 }
 
 function init() {
@@ -231,7 +235,24 @@ function updateDataBinary(){
     var contentDataInt = "";
     for (var i = 0; i <= 28; i = i + 2){
         contentDataBinary += '<div><span class="rowNumber">'+ (500 + i) +'</span><span>' + memory[500 + i] + '</span></div>';
-        contentDataInt += '<div><span>' + parseInt(memory[500 + i], 2) + '</span></div>'
+        if (i==4){
+            contentDataInt += '<div><span>&nbsp;</span></div>';
+        }else{
+            if (i==6){
+                dec = parseInt(memory[504]+memory[506], 2);
+                if (dec > 2147483647){
+                    dec = -2*2147483648 + dec;
+                }
+                contentDataInt += '<div><span>' + dec + '</span></div>';
+            }
+            else {
+                dec = parseInt(memory[500 + i], 2);
+                if (dec > 32767){
+                    dec = -2*32768 + dec;
+                }
+                contentDataInt += '<div><span>' + dec + '</span></div>';
+            }
+        }
     }
     $("#dataBinary").html(contentDataBinary);
     $("#dataInt").html(contentDataInt);

@@ -31,7 +31,7 @@ trans["00110"] = function (){BZD();};
 trans["00111"] = function (){BCD();};
 trans["00100"] = function (){BD();};
 
-trans["0000000000000000"] = function (){END();};
+trans["0000000000000000"] = function (){STOP();};
 
 
 function getFunction(binary){

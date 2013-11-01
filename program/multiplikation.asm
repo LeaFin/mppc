@@ -2,6 +2,7 @@
 102 DEC // -1
 104 SWDD 0 #508  // Speicher 508 auf -1 setzen
 106 LWDD 0 #500  // 1.Zahl wird in Akku geladen
+108 SWDD 0 #506
 108 CLR 1  // R1 wird auf 0 gesetzt
 110 BZD #266  // Falls Akku 0 (1.Zahl) ist zum Schluss springen
 112 LWDD 0 #502  // 2.Zahl wird in Akku geladen
@@ -16,7 +17,7 @@
 
 130 SRA  // Akku wird durch 2 geteilt Carryflag gibt an, ob rest oder nicht
 132 SWDD 0 #502  // Dividierte Zahl wird in 502 und 503 geschrieben
-134 LWDD 0 #500  // Zahl 1 wird geladen
+134 LWDD 0 #506  // Zahl 1 wird geladen
 136 BCD #202 // Falls das carryflag gesetzt ist springe zu 184
 138 SLL  // Zahl 1 wird mit 2 multipliziert, Carryflag speichert abgeschnittene zahl
 140 SWDD 0 #506  // Multiplizierte Zahl wird gespeichert in 506
@@ -66,19 +67,21 @@
 220 SWDD 0 #504
 222 LWDD 0 #506  // Lade hinteren Teil vom ergebnisses in Akku
 224 ADD 3  // Addiere Register 3 zu Akku, Bei überlauf wird carryflag gesetzt (Wird benötigt, wenn die 2. Zahl der Eingabe ungerade ist)
-226 SWDD 0 #506  // Zurück schreiben
-228 BCD #232  // Falls überlauf zu 198 Springen
-230 STOP  // Fertig
+228 SWDD 0 #506  // Zurück schreiben
+230 BCD #238 // Falls überlauf zu 198 Springen
+232 STOP  // Fertig
 
-232 LWDD 0 #504  // Lade vorderen Teil des ergebnisses in Akku
-234 INC  // Inkrementieren
-236 SWDD 0 #504  // Zurückschreiben
-238 STOP  // Fertig
+234 LWDD 0 #508  //Falls negativ
+236 BZD #246
+238 LWDD 0 #504  // Lade vorderen Teil des ergebnisses in Akku
+240 INC  // Inkrementieren
+242 SWDD 0 #504  // Zurückschreiben
+244 STOP  // Fertig
 
-240 LWDD 0 #504  // Lade vorderen Teil des ergebnisses in Akku
-242 DEC  // Dekrementieren
-244 SWDD 0 #506  // Zurückschreiben
-246 STOP  // Fertig
+246 LWDD 0 #504  // Lade vorderen Teil des ergebnisses in Akku
+248 DEC  // Dekrementieren
+250 SWDD 0 #506  // Zurückschreiben
+252 STOP  // Fertig
 
 248 BCD #256  // Falls Multiplikator Negativ
 250 INC // Falls Positiv auf 1 Setzen
