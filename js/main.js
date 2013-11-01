@@ -189,6 +189,7 @@ function loadProgrammAndDataToMemory() {
         var splittedLine = lines[i].split(" ");
         memory[splittedLine[0]] = splittedLine[1];
     }
+    updateView();
 }
 
 function NOT() {
@@ -221,10 +222,27 @@ function updateView() {
     $("#register1").html(register[1]);
     $("#register2").html(register[2]);
     $("#register3").html(register[3]);
+    updateBinary();
+}
+
+function updateBinary() {
+    var content = "";
+    for (var i = 10; i >= 2; i = i - 2) {
+        content += '<div><span class="rowNumber">'+ (commandCounter-i) +'</span><span>' + memory[commandCounter - i] + '</span></div>';
+    }
+    content += '<div id="currentCommand"><span class="rowNumber">'+ commandCounter +'</span><span>' + memory[commandCounter] + '</span></div>';
+    for (var i = 2; i <= 20; i = i + 2) {
+        content += '<div><span class="rowNumber">'+ (commandCounter+i) +'</span><span>' + memory[commandCounter + i] + '</span></div>';
+    }
+    $("#binary").html(content);
+}
+
+function clearProgrammAndDataInput(){
+    $("#programmAndDataInput").val("");
 }
 
 function step() {
-    //getFunction(memory[commandCounter]);
+    getFunction(memory[commandCounter]);
     counter++;
     updateView();
 }

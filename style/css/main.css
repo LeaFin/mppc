@@ -26,3 +26,23 @@ hr {
   margin-top: 40px;
   margin-bottom: 40px;
 }
+
+#programmAndDataInput{
+    width: 100%;
+    height: 700px;
+}
+
+#binary div{
+    height: 25px;
+    border-bottom: 1px dotted grey;
+}
+
+.rowNumber{
+    font-weight: bold;
+    display: inline-block;
+    width: 30px;
+}
+
+#currentCommand{
+    background-color: yellow;
+}
