@@ -19,17 +19,27 @@
                 <div class="col-lg-4">
                     <button onclick="clearProgrammAndDataInput();">clear</button>
                     <button onclick="loadProgrammAndDataToMemory();" class="pull-right">load</button>
-                    <textarea id="programmAndDataInput"></textarea>
+                    <textarea id="programmAndDataInput" onkeyup="textAreaAdjust(this)"></textarea>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-8">
                     <div class="row">
-                        <div class="col-lg-12 text-center">
+                        <div class="col-lg-6 text-center">
                             <span class="pull-left">fast</span><span class="pull-right">slow</span><br>
                             <div id="slider"></div><br>
-                            <button onclick="run(); play();">Run</button>
+                            <button onclick="run();
+                                    play();">Run</button>
                             <button onclick="pause();">Pause</button>
                             <button onclick="step();">Schritt</button>
                             <button onclick="reset();">Reset</button>
+                        </div>
+                        <div class="col-lg-6">
+                            <span>Befehlsz&auml;hler: </span><span id="commandCounter"></span><br>
+                            <span>Akku: </span><span id="akku"></span><br>
+                            <span>Carry Flag: </span><span id="carryBit"></span><br>
+                            <span>Register 1: </span><span id="register1"></span><br>
+                            <span>Register 2: </span><span id="register2"></span><br>
+                            <span>Register 3: </span><span id="register3"></span><br>
+                            <span>Anzahl Schritte: </span><span id="counter"></span>
                         </div>
                     </div>
                     <div class="row">
@@ -38,28 +48,17 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-6" id="binary">
-                            binary
-                        </div>
-                        <div class="col-lg-6">
-                            mnemonics
-                        </div>
+                        <div class="col-lg-3" id="programmBinary"></div>
+                        <div class="col-lg-3">mnemonics</div>
+                        <div class="col-lg-3" id="dataBinary">daten</div>
+                        <div class="col-lg-3" id="dataInt">dezimal</div>
                     </div>
-                </div>
-                <div class="col-lg-4">
-                    <span>Befehlsz&auml;hler: </span><span id="commandCounter"></span><br>
-                    <span>Akku: </span><span id="akku"></span><br>
-                    <span>Carry Flag: </span><span id="carryBit"></span><br>
-                    <span>Register 1: </span><span id="register1"></span><br>
-                    <span>Register 2: </span><span id="register2"></span><br>
-                    <span>Register 3: </span><span id="register3"></span><br>
-                    <span>Anzahl Schritte: </span><span id="counter"></span>
                 </div>
             </div>
         </div>
         <script src="js/vendor/bootstrap.min.js"></script>
         <script>
-            init();
+                                init();
         </script>
     </body>
 </html>

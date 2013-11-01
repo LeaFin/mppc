@@ -222,10 +222,22 @@ function updateView() {
     $("#register1").html(register[1]);
     $("#register2").html(register[2]);
     $("#register3").html(register[3]);
-    updateBinary();
+    updateProgrammBinary();
+    updateDataBinary();
 }
 
-function updateBinary() {
+function updateDataBinary(){
+    var contentDataBinary = "";
+    var contentDataInt = "";
+    for (var i = 0; i <= 28; i = i + 2){
+        contentDataBinary += '<div><span class="rowNumber">'+ (500 + i) +'</span><span>' + memory[500 + i] + '</span></div>';
+        contentDataInt += '<div><span>' + parseInt(memory[500 + i], 2) + '</span></div>'
+    }
+    $("#dataBinary").html(contentDataBinary);
+    $("#dataInt").html(contentDataInt);
+}
+
+function updateProgrammBinary() {
     var content = "";
     for (var i = 10; i >= 2; i = i - 2) {
         content += '<div><span class="rowNumber">'+ (commandCounter-i) +'</span><span>' + memory[commandCounter - i] + '</span></div>';
@@ -234,7 +246,7 @@ function updateBinary() {
     for (var i = 2; i <= 20; i = i + 2) {
         content += '<div><span class="rowNumber">'+ (commandCounter+i) +'</span><span>' + memory[commandCounter + i] + '</span></div>';
     }
-    $("#binary").html(content);
+    $("#programmBinary").html(content);
 }
 
 function clearProgrammAndDataInput(){
@@ -273,4 +285,9 @@ function loadSlider() {
             speed = ui.value;
         }
     });
+}
+
+function textAreaAdjust(o) {
+    o.style.height = "1px";
+    o.style.height = (25+o.scrollHeight)+"px";
 }
