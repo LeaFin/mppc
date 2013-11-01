@@ -266,7 +266,9 @@ function play() {
 
 function loadSlider() {
     $("#slider").slider({
+        min: 0,
         max: 5000,
+        value: speed,
         change: function(event, ui) {
             speed = ui.value;
         }

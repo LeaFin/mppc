@@ -46,3 +46,7 @@ hr {
 #currentCommand{
     background-color: yellow;
 }
+
+#slider{
+    margin-top: 5px;
+}
