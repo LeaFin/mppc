@@ -10,7 +10,7 @@ trans["000010111"] = function (){ADD(2);};
 trans["000011111"] = function (){ADD(3);};
 
 trans["00000001"] = function (){INC();};
-trans["00000100"] = function (){DEC(3);};
+trans["00000100"] = function (){DEC();};
 
 trans["010000"] = function (){LWDD(0);};
 trans["010001"] = function (){LWDD(1);};
