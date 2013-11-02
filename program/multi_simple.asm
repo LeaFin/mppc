@@ -5,92 +5,92 @@
 108 SWDD 0 #508  // Speicher 508 auf -1 setzen
 110 LWDD 0 #500  // 1.Zahl wird in Akku geladen
 112 SWDD 0 #506
-114 BZD #ENDZERO  // Falls Akku 0 (1.Zahl) ist zum Schluss springen
+114 BZD #246  // Falls Akku 0 (1.Zahl) ist zum Schluss springen
 116 CLR 1  // R1 wird auf 0 gesetzt
 118 SLL
-120 BCD #NEGFLAG1
-122/BACK1  LWDD 0 #502  // 2.Zahl wird in Akku geladen
-124 BZD #ENDZERO  // Falls Akku (2.Zahl) 0 ist zum Schluss springen 
+120 BCD #214
+122 LWDD 0 #502  // 2.Zahl wird in Akku geladen
+124 BZD #246  // Falls Akku (2.Zahl) 0 ist zum Schluss springen 
 126 DEC  // Zweite Zahl wird Decrementiert
-128 BZD #ENDPOS // Falls die letzte Zahl eine 1 war ist die Multiplikation abgeschlossen
+128 BZD #190 // Falls die letzte Zahl eine 1 war ist die Multiplikation abgeschlossen
 130 INC // Sonst wird die Zahl wieder Inkrementiert
 132 INC // Nochmals inkrementieren um festzustellen ob =-1
-134 BZD #ENDNEG // Falls die letzte Zahl -1 war ist die Multiplikation abgeschlossen
+134 BZD #252 // Falls die letzte Zahl -1 war ist die Multiplikation abgeschlossen
 136 DEC
 138 SLL
-140 BCD #NEGFLAG2
-142/BACK2  LWDD #202
-144/LOOP SRA  // Akku wird durch 2 geteilt Carryflag gibt an, ob rest oder nicht
+140 BCD #230   
+142 LWDD #202
+144 SRA  // Akku wird durch 2 geteilt Carryflag gibt an, ob rest oder nicht
 146 SWDD 0 #502  // Dividierte Zahl wird in 502 und 503 geschrieben
 148 LWDD 0 #506  // Zahl 1 wird geladen
-150 BCD #UNEVEN // Falls das carryflag gesetzt ist springe zu 184
-152/BACK3 SLL  // Zahl 1 wird mit 2 multipliziert, Carryflag speichert abgeschnittene zahl
+150 BCD #210 // Falls das carryflag gesetzt ist springe zu 184
+152 SLL  // Zahl 1 wird mit 2 multipliziert, Carryflag speichert abgeschnittene zahl
 154 SWDD 0 #506  // Multiplizierte Zahl wird gespeichert in 506
-156 BCD #OFMULT // Falls das carryfalg gesetz ist gehts bei 158 weiter (Clear ändert das carryflag, drum schon hier)
+156 BCD #200 // Falls das carryfalg gesetz ist gehts bei 158 weiter (Clear ändert das carryflag, drum schon hier)
 158 CLR 0  // Akku wird auf 0 gesetzt
 160 ADD 1  // Akku wird auf den wert von R1 gesetzt
 162 SLL  // Multiplikation
-164/BACK4 SWDD 0 #504  // Vorderer Teil der Zahl wird in 504 geschrieben
+164 SWDD 0 #504  // Vorderer Teil der Zahl wird in 504 geschrieben
 166 LWDD 1 #504  // Laden der geschriebenen Zahl in R1
 168 LWDD 0 #502  // Lade zweite Zahl in Akku
 170 DEC  // Zweite Zahl wird Decrementiert
-172 BZD #ALMOSTEND // Falls die letzte Zahl eine 1 war ist die Multiplikation abgeschlossen
+172 BZD #178 // Falls die letzte Zahl eine 1 war ist die Multiplikation abgeschlossen
 174 INC // Sonst wird die Zahl wieder Inkrementiert
-176 BD #LOOP //... und bei 112 weitergemacht
+176 BD #144 //... und bei 112 weitergemacht
 
-ALMOSTEND LWDD 0 #506
-ALMOSTEND ADD 3
-ALMOSTEND SWDD 0 #506
-ALMOSTEND BCD #LASTOF
-ALMOSTEND/BACKAL LWDD 0 #508
-ALMOSTEND BZD ENDNEG
-ENDPOS STOP
+178 LWDD 0 #506
+180 ADD 3
+182 SWDD 0 #506
+184 BCD #192
+186 LWDD 0 #508
+188 BZD #252
+190 STOP
 
-LASTOF LWDD 0 #504  // Lade vorderen Teil des ergebnisses in Akku
-LASTOF INC  // Inkrementieren
-LASTOF SWDD 0 #504  // Zurückschreiben
-LASTOF BD BACKAL  // Fertig
+192 LWDD 0 #504  // Lade vorderen Teil des ergebnisses in Akku
+194 INC  // Inkrementieren
+196 SWDD 0 #504  // Zurückschreiben
+198 BD #186  // Fertig
 
-OFMULT CLR 0  // Akku wird auf 0 gesetzt
-OFMULT ADD 1  // Akku wird auf den wert von R1 gesetzt
-OFMULT SLL  // Multiplikation
-OFMULT INC  // überlauf von der ersten multiplikation hier addiert
-OFMULT BD BACK4
+200 CLR 0  // Akku wird auf 0 gesetzt
+202 ADD 1  // Akku wird auf den wert von R1 gesetzt
+204 SLL  // Multiplikation
+206 INC  // überlauf von der ersten multiplikation hier addiert
+208 BD #164
 
-UNEVEN LWDD 3 #506  // Wird später gebraucht falls zu dividierende Zahl ungerade war
-UNEVEN BD #BACK3
+210 LWDD 3 #506  // Wird später gebraucht falls zu dividierende Zahl ungerade war
+212 BD #152
 
-NEGFLAG1 LWDD 0 #508
-NEGFLAG1 INC
-NEGFLAG1 SWDD 0 #508
-NEGFLAG1 LWDD 0 #506
-NEGFLAG1 DEC
-NEGFLAG1 NOT
-NEGFLAG1 SWDD 0 #506
-NEGFLAG1 BD #BACK1
+214 LWDD 0 #508
+216 INC
+218 SWDD 0 #508
+220 LWDD 0 #506
+222 DEC
+224 NOT
+226 SWDD 0 #506
+228 BD #122
 
-NEGFLAG2 LWDD 0 #508
-NEGFLAG2 INC
-NEGFLAG2 SWDD 0 #508
-NEGFLAG2 LWDD 0 #502
-NEGFLAG2 DEC
-NEGFLAG2 NOT
-NEGFLAG2 SWDD 0 #502
-NEGFLAG2 BD #BACK2
+230 LWDD 0 #508
+232 INC
+234 SWDD 0 #508
+236 LWDD 0 #502
+238 DEC
+240 NOT
+242 SWDD 0 #502
+244 BD #142
 
-ENDZERO CLR 0
-ENDZERO SWDD #506
-ENDZERO STOP
+246 CLR 0
+248 SWDD #506
+250 STOP
 
-ENDNEG LWDD #506
-ENDNEG NOT
-ENDNEG INC
-ENDNEG SWDD #506
-ENDNEG LWDD #504
-ENDNEG NOT
-ENDNEG BCD #OFENDNEG
-ENDNEG/BACKENDNEG SWDD #504
-ENDNEG STOP
+252 LWDD #506
+254 NOT
+256 INC
+258 SWDD #506
+260 LWDD #504
+262 NOT
+264 BCD #270
+266 SWDD #504
+268 STOP
 
-OFENDNEG INC
-OFENDNEG BD #BACKENDNEG
+270 INC
+272 BD #266
