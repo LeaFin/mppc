@@ -33,11 +33,15 @@ transNemonics["00100"] = "BD";
 
 transNemonics["0000000000000000"] = "END";
 
-function getMnemonics(binary){
-    for(var i = 1; i<=16; i++){
+function getMnemonics(binary) {
+    for (var i = 1; i <= 16; i++) {
         var code = binary.substr(0, i);
-        if(transNemonics[code] !== undefined){
-           return transNemonics[code];
+        if (transNemonics[code] !== undefined) {
+            if (transNemonics[code].match(/LWDD.*/) || transNemonics[code].match(/SWDD.*/) || transNemonics[code] === "BZD" || transNemonics[code] === "BCD" || transNemonics[code] === "BD") {
+                return transNemonics[code] + ", #" + parseInt(binary.substring(6, 16), 2);
+            } else {
+                return transNemonics[code];
+            }
         }
     }
 }
