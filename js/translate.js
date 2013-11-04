@@ -35,7 +35,7 @@ trans["0000000000000000"] = function (){STOP();};
 
 
 function getFunction(binary){
-    for(var i = 1; i<16; i++){
+    for(var i = 1; i<=16; i++){
         var code = binary.substr(0, i);
         if(trans[code] !== undefined){
            return trans[code]();
